@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #calculator {
+            width: 320px;
+            background-color: #333;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
+            padding: 20px;
+            color: #fff;
+            text-align: center;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            background-color: #444;
+            color: #fff;
+            font-size: 20px;
+            border-radius: 5px;
+            text-align: right;
+        }
+        .btn-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        button {
+            padding: 15px;
+            font-size: 18px;
+            border: none;
+            background-color: #555;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+        button:hover {
+            background-color: #777;
+        }
+        #result {
+            margin-top: 10px;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div id="calculator">
+        <h2>My Calculator</h2>
+        <input type="text" id="display" placeholder="0">
+        <div class="btn-container">
+            <button onclick="appendNumber('7')">7</button>
+            <button onclick="appendNumber('8')">8</button>
+            <button onclick="appendNumber('9')">9</button>
+            <button onclick="clearDisplay()">C</button>
+            <button onclick="appendNumber('4')">4</button>
+            <button onclick="appendNumber('5')">5</button>
+            <button onclick="appendNumber('6')">6</button>
+            <button onclick="operate('+')">+</button>
+            <button onclick="appendNumber('1')">1</button>
+            <button onclick="appendNumber('2')">2</button>
+            <button onclick="appendNumber('3')">3</button>
+            <button onclick="operate('-')">-</button>
+            <button onclick="appendNumber('0')">0</button>
+            <button onclick="appendDecimal('.')">.</button>
+            <button onclick="calculate()">=</button>
+            <button onclick="operate('*')">*</button>
+            <button onclick="operate('/')">/</button>
+        </div>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        let currentInput = '';
+        let firstOperand = '';
+        let operator = '';
+
+        function appendNumber(number) {
+            currentInput += number;
+            document.getElementById('display').value = currentInput;
+        }
+
+        function appendDecimal(decimal) {
+            if (!currentInput.includes(decimal)) {
+                currentInput += decimal;
+                document.getElementById('display').value = currentInput;
+            }
+        }
+
+        function operate(op) {
+            if (currentInput !== '') {
+                firstOperand = currentInput;
+                operator = op;
+                currentInput = '';
+            }
+        }
+
+        function calculate() {
+            if (firstOperand !== '' && currentInput !== '') {
+                let result = '';
+                switch (operator) {
+                    case '+':
+                        result = parseFloat(firstOperand) + parseFloat(currentInput);
+                        break;
+                    case '-':
+                        result = parseFloat(firstOperand) - parseFloat(currentInput);
+                        break;
+                    case '*':
+                        result = parseFloat(firstOperand) * parseFloat(currentInput);
+                        break;
+                    case '/':
+                        result = parseFloat(firstOperand) / parseFloat(currentInput);
+                        break;
+                }
+                document.getElementById('display').value = result;
+                currentInput = result;
+                firstOperand = '';
+                operator = '';
+            }
+        }
+
+        function clearDisplay() {
+            currentInput = '';
+            firstOperand = '';
+            operator = '';
+            document.getElementById('display').value = '0';
+        }
+    </script>
+</body>
+</html>
